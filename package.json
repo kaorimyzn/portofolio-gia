@@ -25,7 +25,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "some-build-command --output-dir ./dist",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
