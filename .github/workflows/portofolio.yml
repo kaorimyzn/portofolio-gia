@@ -15,15 +15,23 @@ jobs:
         run: npm install
       - name: Build Project
         run: npm run build
-      - name: List Files for Debugging
-        run: |
-          echo "Listing files in the current directory:"
-          ls -R
-          echo "Listing files in ./dist:"
-          ls -R ./dist || echo "./dist directory does not exist"
       - name: Upload artifact to enable deployment
-        if: success()  # Only run if the previous steps succeed
         uses: actions/upload-artifact@v3
         with:
           name: production-files
-          path: ./dist # Pastikan ini mengarah ke direktori build Anda
+          path: ./build # Pastikan ini mengarah ke direktori build Anda
+
+  # Deploy Job
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: production-files
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.PORTOFOLIO_TOKEN }}
+          publish_dir: ./build # Pastikan ini mengarah ke direktori yang sesuai
