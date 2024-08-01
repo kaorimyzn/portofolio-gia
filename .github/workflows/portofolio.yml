@@ -19,21 +19,19 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: production-files
-          path: ls-R
+          path: ./dist # Pastikan ini mengarah ke direktori build Anda
+
   # Deploy Job
   deploy:
-    # Add a dependency to the build job
     needs: build
-    # Specify runner + deployment step
     runs-on: ubuntu-latest
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
           name: production-files
-          run: ls-R
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.PORTOFOLIO_TOKEN }}
-          publish_dir: ./dist
+          publish_dir: ./dist # Pastikan ini mengarah ke direktori yang sesuai
